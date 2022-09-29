@@ -1,0 +1,128 @@
+---
+title: "viz_part_01"
+author: "Allison Randy-Cofie"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Let's import data
+```{r}
+library(tidyverse)
+library(ggridges)
+```
+
+This is code from the course website
+
+```{r}
+weather_df = 
+  rnoaa::meteo_pull_monitors(
+    c("USW00094728", "USC00519397", "USS0023B17S"),
+    var = c("PRCP", "TMIN", "TMAX"), 
+    date_min = "2017-01-01",
+    date_max = "2017-12-31") %>%
+  mutate(
+    name = recode(
+      id, 
+      USW00094728 = "CentralPark_NY", 
+      USC00519397 = "Waikiki_HA",
+      USS0023B17S = "Waterhole_WA"),
+    tmin = tmin / 10,
+    tmax = tmax / 10) %>%
+  select(name, id, everything())
+```
+
+Let's make a scatterplot
+
+```{r}
+ggplot(weather_df, aes(x=tmin, y=tmax)) +
+  geom_point()
+```
+
+Let's make the same scatterplot, but different
+
+```{r}
+weather_df %>% 
+  drop_na() %>% 
+  #filter(name == "CentralPark_NY") %>%  this shows only NY
+  ggplot(aes(x=tmin, y=tmax)) +
+  geom_point()
+```
+
+Let's keep making the same plot but different.
+
+```{r}
+weather_scatterplot = 
+  weather_df %>% 
+  drop_na() %>% 
+  ggplot(aes(x=tmin,y=tmax))
+
+weather_scatterplot +
+  geom_point()
+```
+
+## Let's fancy this up a bit
+```{r}
+weather_df %>% 
+  ggplot(aes(x=tmin,y=tmax,color=name)) +
+  geom_point() 
+ # geom_smooth() applies a line for each location instead of the bottom one
+```
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x=tmin,y=tmax,color=name)) +
+  geom_point(alpha=0.3) + #makes the points transparent
+ geom_smooth(se = FALSE)  #gets rid of error bars
+```
+
+
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x=tmin,y=tmax)) +
+  geom_point(aes(color=name)) +
+  geom_smooth() #runs a line through the middle of the dataset
+```
+
+Maybe make separate panels.
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x=tmin,y=tmax,color=name)) +
+  geom_point(alpha=0.3) + 
+  geom_smooth(se = FALSE) +
+  facet_grid(. ~ name) #makes different panels without excessive code name~ . will put names on the rows. so it is row ~ column
+```
+
+`tmax` vs `tmin` is boring, let's spice it up some.
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x=date, y=tmax, size = prcp)) +
+  geom_point(alpha=0.3) +
+  geom_smooth(se = FALSE)+
+  facet_grid(. ~ name)
+```
+
+
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x=date, y=tmax, color = name)) +
+  geom_point(aes(size = prcp), alpha=0.3) +
+  geom_smooth(se = FALSE)+
+  facet_grid(. ~ name) +
+  theme(axis.text.x=element_text(angle = 90, vjust = 9.5, hjust=1)) # rotates the x axis labels
+```
+
+
+## Some quick stuff
+```{r}
+weather_df %>% 
+ ggplot(aes(x=tmin, y=tmax)) +
+  geom_hex()
+```
+
