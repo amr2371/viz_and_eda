@@ -126,3 +126,82 @@ weather_df %>%
   geom_hex()
 ```
 
+Histograms, densityplots, boxplots and violins,,.
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x=tmin, color=name)) +
+  geom_histogram()
+
+```
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x=tmin, fill=name)) +
+  geom_histogram()
+```
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x=tmin, fill=name)) +
+  geom_histogram()+
+  facet_grid(. ~ name)
+```
+
+
+Let's see more options!
+```{r}
+weather_df %>% 
+  ggplot(aes(x=tmax, color=name)) +
+  geom_density()
+```
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x=tmax, fill=name)) +
+  geom_density()
+```
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x=tmax, fill=name)) +
+  geom_density(alpha=.3)
+```
+ 
+ Boxplots?
+```{r}
+weather_df %>% 
+  ggplot(aes(y = tmax)) +
+  geom_boxplot()
+```
+ 
+```{r}
+weather_df %>% 
+  ggplot(aes(x=name, y = tmax)) +
+  geom_boxplot()
+```
+ 
+ 
+```{r}
+weather_df %>% 
+  ggplot(aes(x=name, y = tmax, fill=name)) +
+  geom_boxplot()
+```
+ 
+ 
+ Violin plots come in handy when you have like 20/30 things you are paneling by
+```{r}
+weather_df %>% 
+  ggplot(aes(x=name, y = tmax, fill=name)) +
+  geom_violin()
+```
+ 
+OR
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x=tmax,y=name)) +
+  geom_density_ridges()
+```
+
+ 
