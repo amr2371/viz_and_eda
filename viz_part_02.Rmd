@@ -44,7 +44,7 @@ weather_df %>%
   geom_point(alpha=.5)
 ```
 
-#3 Labels
+## Labels
 ```{r}
 weather_df %>% 
   ggplot(aes(x=tmin, y=tmax, color=name)) +
@@ -56,4 +56,61 @@ weather_df %>%
     caption = "Data from rnoaa package; temperatures in 2017"
   )
 ```
+
+## Scales
+
+Start with the same plot; x and y scales
+```{r}
+weather_df %>% 
+  ggplot(aes(x=tmin, y=tmax, color=name)) +
+  geom_point(alpha=.5) +
+  labs(
+    title = "Temperature plot",
+    x = "Minimum daily temperature (C)",
+    y= "Maximum daily temperature (C)",
+    caption = "Data from rnoaa package; temperatures in 2017"
+  ) +
+  scale_x_continuous(
+    breaks = c(-15,0,15),
+    labels = c("-15C","0 C", "15 C")
+  ) +
+  scale_y_continuous(
+    #trans = "log""sqrt"
+    position = "right"
+  )
+```
+
+
+look at color scales
+```{r}
+weather_df %>% 
+  ggplot(aes(x=tmin, y=tmax, color=name)) +
+  geom_point(alpha=.5) +
+  labs(
+    title = "Temperature plot",
+    x = "Minimum daily temperature (C)",
+    y= "Maximum daily temperature (C)",
+    caption = "Data from rnoaa package; temperatures in 2017"
+  ) +
+  scale_color_hue(
+    name = "Location", #Changes the name of the key on the side to location instead of name
+    h = c(100,300))
+```
+
+
+```{r}
+weather_df %>% 
+  ggplot(aes(x=tmin, y=tmax, color=name)) +
+  geom_point(alpha=.5) +
+  labs(
+    title = "Temperature plot",
+    x = "Minimum daily temperature (C)",
+    y= "Maximum daily temperature (C)",
+    caption = "Data from rnoaa package; temperatures in 2017"
+  ) +
+  viridis::scale_color_viridis(
+    name = "Location", #Changes the name of the key on the side to location instead of name
+   discrete=TRUE)
+```
+
 
