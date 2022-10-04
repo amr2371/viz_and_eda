@@ -389,3 +389,5 @@ weather_df %>%
     ## Warning: Removed 18 rows containing non-finite values (stat_density).
 
 ![](viz_part_02_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+## He does an example at the end so you can revisit the video.
