@@ -1,5 +1,5 @@
 ---
-title: "viz_part_02"
+title: "vEDA"
 author: "Allison Randy-Cofie"
 output: github_document
 ---
@@ -44,7 +44,38 @@ weather_df %>%
   ungroup()
 ```
 
-```{r}
 
+## counting things
+count month observations
+```{r}
+weather_df %>% 
+  group_by(name, month) %>% 
+  summarize(n_obs = n()) #name the variable n_obs
 ```
+
+we can use `count()`
+```{r}
+weather_df %>% 
+  count(month, name = "n_obs")
+```
+
+**NEVER** use base R's `table` function
+```{r, eval=FALSE}
+weather_df %>% 
+  pull(month) %>% 
+  table() #this result is not a data frame
+```
+
+
+Other helpful counters
+```{r}
+weather_df %>% 
+  group_by(name, month) %>% 
+  summarize(n_obs = n(),
+            n_days = n_distinct(date))
+```
+
+
+
+
 

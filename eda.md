@@ -1,4 +1,4 @@
-viz_part_02
+vEDA
 ================
 Allison Randy-Cofie
 
@@ -105,3 +105,91 @@ weather_df %>%
     ##  9 CentralPark_NY USW00094728 2017-01-09     0  -4.9  -9.9 2017-01-01
     ## 10 CentralPark_NY USW00094728 2017-01-10     0   7.8  -6   2017-01-01
     ## # … with 1,085 more rows
+
+## counting things
+
+count month observations
+
+``` r
+weather_df %>% 
+  group_by(name, month) %>% 
+  summarize(n_obs = n()) #name the variable n_obs
+```
+
+    ## `summarise()` has grouped output by 'name'. You can override using the
+    ## `.groups` argument.
+
+    ## # A tibble: 36 × 3
+    ## # Groups:   name [3]
+    ##    name           month      n_obs
+    ##    <chr>          <date>     <int>
+    ##  1 CentralPark_NY 2017-01-01    31
+    ##  2 CentralPark_NY 2017-02-01    28
+    ##  3 CentralPark_NY 2017-03-01    31
+    ##  4 CentralPark_NY 2017-04-01    30
+    ##  5 CentralPark_NY 2017-05-01    31
+    ##  6 CentralPark_NY 2017-06-01    30
+    ##  7 CentralPark_NY 2017-07-01    31
+    ##  8 CentralPark_NY 2017-08-01    31
+    ##  9 CentralPark_NY 2017-09-01    30
+    ## 10 CentralPark_NY 2017-10-01    31
+    ## # … with 26 more rows
+
+we can use `count()`
+
+``` r
+weather_df %>% 
+  count(month, name = "n_obs")
+```
+
+    ## # A tibble: 12 × 2
+    ##    month      n_obs
+    ##    <date>     <int>
+    ##  1 2017-01-01    93
+    ##  2 2017-02-01    84
+    ##  3 2017-03-01    93
+    ##  4 2017-04-01    90
+    ##  5 2017-05-01    93
+    ##  6 2017-06-01    90
+    ##  7 2017-07-01    93
+    ##  8 2017-08-01    93
+    ##  9 2017-09-01    90
+    ## 10 2017-10-01    93
+    ## 11 2017-11-01    90
+    ## 12 2017-12-01    93
+
+**NEVER** use base R’s `table` function
+
+``` r
+weather_df %>% 
+  pull(month) %>% 
+  table() #this result is not a data frame
+```
+
+Other helpful counters
+
+``` r
+weather_df %>% 
+  group_by(name, month) %>% 
+  summarize(n_obs = n(),
+            n_days = n_distinct(date))
+```
+
+    ## `summarise()` has grouped output by 'name'. You can override using the
+    ## `.groups` argument.
+
+    ## # A tibble: 36 × 4
+    ## # Groups:   name [3]
+    ##    name           month      n_obs n_days
+    ##    <chr>          <date>     <int>  <int>
+    ##  1 CentralPark_NY 2017-01-01    31     31
+    ##  2 CentralPark_NY 2017-02-01    28     28
+    ##  3 CentralPark_NY 2017-03-01    31     31
+    ##  4 CentralPark_NY 2017-04-01    30     30
+    ##  5 CentralPark_NY 2017-05-01    31     31
+    ##  6 CentralPark_NY 2017-06-01    30     30
+    ##  7 CentralPark_NY 2017-07-01    31     31
+    ##  8 CentralPark_NY 2017-08-01    31     31
+    ##  9 CentralPark_NY 2017-09-01    30     30
+    ## 10 CentralPark_NY 2017-10-01    31     31
+    ## # … with 26 more rows
