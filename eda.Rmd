@@ -156,3 +156,37 @@ weather_df %>%
   
 ```
 
+## `group_by` and `mutate`
+
+```{r}
+weather_df %>% 
+  group_by(name) %>% 
+  mutate(
+    mean_tmax = mean(tmax, na.rm=TRUE),
+    centered_tmax = tmax-mean_tmax
+  ) %>% 
+  ggplot(aes(x=date,y=centered_tmax,color=name)) +
+  geom_point()
+```
+
+
+what about window functions
+```{r}
+weather_df %>% 
+  group_by(name,month) %>% 
+  mutate(
+    temp_rank=min_rank(tmax)
+  ) %>% 
+  filter(temp_rank==1)
+```
+
+lag
+```{r}
+weather_df %>% 
+  group_by(name) %>% 
+  mutate(lag_temp = lag(tmax)) #opposite is lead
+```
+
+
+
+
