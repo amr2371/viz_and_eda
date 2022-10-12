@@ -416,3 +416,7 @@ weather_df %>%
     ##  9 CentralPark_NY USW00094728 2017-01-09     0  -4.9  -9.9 2017-01-01     -3.8
     ## 10 CentralPark_NY USW00094728 2017-01-10     0   7.8  -6   2017-01-01     -4.9
     ## # … with 1,085 more rows
+
+## Quick note
+
+Summarize only gets you so far.
