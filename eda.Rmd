@@ -180,7 +180,7 @@ weather_df %>%
   filter(temp_rank==1)
 ```
 
-lag
+## lag
 ```{r}
 weather_df %>% 
   group_by(name) %>% 
